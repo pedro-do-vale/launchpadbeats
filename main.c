@@ -8,8 +8,8 @@ main (int argc, char **argv){
 	char *caminho = "exemplo.txt";
 	FILE *lista_arquivos = fopen(caminho, "r");
 	Mix_Chunk **botao;/*vetor de audios*/
+	CanalAtual *canais;
 	
-
 	/*Alocação de botoes*/
 	if (!(botao  = (Mix_Chunk **) malloc(sizeof(Mix_Chunk*) * (numCaminhos+1)))){
 		mostraErro("Falha ao alocar: ");
@@ -26,10 +26,11 @@ main (int argc, char **argv){
 	if (insereCaminho(botao, numCaminhos, listaudio) < 0)
 		mostraErro("Falha ao inserir caminhos nos botoes: ");
 		
+	indice = 12 * PAG + retorno;
 		
-	indice = PAG * retorno;/*indice do botão atual*/
-	if(indice < noAlocado)
-		Mix.PlayChannel(estrutura[indice].canal, botao[indice], 0);
+	alocaCanais(&canais, numCaminhos, Mix_AllocateChannels);
+	
+	Mix.PlayChannel(canais[indice].canal, botao[indice], 0);
 		
 		
 	free(botao);
